@@ -2,6 +2,7 @@ import type {RouteRecordRaw} from "vue-router";
 import {createRouter, createWebHistory} from "vue-router";
 import SignUp from "../views/SignUp.vue";
 import Login from "../views/Login.vue";
+import ProductList from "@/views/ProductList.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,7 +14,17 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     component: Login
-  }
+  },
+  {
+    path: '/',
+    name: 'Home',
+    component: ProductList // 임시
+  },
+  {
+    path: '/products',
+    name: 'ProductList',
+    component: ProductList
+  },
   // TODO: 다른 라우터 추가
 ];
 
