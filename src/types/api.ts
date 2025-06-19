@@ -4,4 +4,12 @@ export interface SignUpRequest {
   email: string;
 }
 
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+}
 // TODO: 다른 API 타입 추가
