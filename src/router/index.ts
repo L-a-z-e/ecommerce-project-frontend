@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import SignUp from "../views/SignUp.vue";
 import Login from "../views/Login.vue";
 import ProductList from "@/views/ProductList.vue";
+import ProductDetail from "@/views/ProductDetail.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -25,6 +26,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'ProductList',
     component: ProductList
   },
+  {
+    path: '/products/:id',
+    name: 'ProductDetail',
+    component: ProductDetail,
+    props: true // 라우트 파라미터(:id)를 컴포넌트의 props로 전달
+  }
   // TODO: 다른 라우터 추가
 ];
 

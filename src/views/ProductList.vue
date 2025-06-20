@@ -4,9 +4,9 @@
     <div v-if="loading">로딩 중...</div>
     <div v-if="error">{{ error }}</div>
     <ul v-if="products.length > 0">
-      <li v-for="product in products" :key="product.id">
+      <router-link v-for="product in products" :key="product.id" :to="`/products/${product.id}`">
         <strong>{{ product.productName }}</strong> - {{ product.price }}원 (재고: {{ product.stock }}개)
-      </li>
+      </router-link>
     </ul>
     <div v-else-if="!loading">
       등록된 상품이 없습니다.
@@ -55,5 +55,9 @@ li {
   border: 1px solid #cccccc;
   margin: 10px;
   padding: 10px;
+}
+a {
+  text-decoration: none;
+  color: inherit;
 }
 </style>
