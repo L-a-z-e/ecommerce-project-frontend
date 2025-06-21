@@ -20,4 +20,18 @@ export interface Product {
   stock: number;
   attributes?: string;
 }
+
+export interface CartItem {
+  id: number;
+  productId: number;
+  productName: string;
+  price: number;
+  quantity: number;
+}
+
+export interface CartResponse {
+  items: CartItem[];
+  totalPrice: number;
+}
+
 // TODO: 다른 API 타입 추가
