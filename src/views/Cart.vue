@@ -16,7 +16,12 @@
       </ul>
       <hr>
       <h3>총 금액: {{ cart.totalPrice }}</h3>
-      <button>주문하기</button>
+      <div>
+        <label for="address">배송주소</label>
+        <input type="text" id="address" v-model="address" placeholder="배송지를 입력하세요."/>
+        <button @click="createOrder" :disabled="!address.trim()">주문하기</button>
+      </div>
+      <p v-if="orderMessage">{{ orderMessage }}</p>
     </div>
     <div v-else-if="!loading">
       장바구니가 비었습니다.
@@ -30,10 +35,14 @@ import {onMounted, ref} from "vue";
 import type {CartResponse} from "@/types/api.ts";
 import apiClient from "@/api";
 import axios from "axios";
+import {useRouter} from "vue-router";
 
 const cart = ref<CartResponse | null>(null);
 const loading = ref<boolean>(true);
 const error = ref<string>('');
+const address = ref<string>('');
+const orderMessage = ref<string>('');
+const router = useRouter();
 
 onMounted(async () => {
   await fetchCart();
@@ -79,6 +88,35 @@ const removeItem = async (id: number) => {
     await fetchCart();
   } catch (err) {
     alert('상품 삭제에 실패했습니다.');
+  }
+}
+
+const createOrder = async () => {
+  if (!address.value.trim()) {
+    alert('배송지 주소를 입력하세요.')
+    return;
+  }
+
+  if(!confirm('정말로 주문하시겠습니까?'))
+    return;
+
+  try{
+    orderMessage.value = '주문 처리 중...';
+    await apiClient.post<void>('/orders', { address: address.value });
+    orderMessage.value = '주문이 성공적으로 완료되었습니다.! 잠시 후 주문 내역 페이지로 이동합니다.';
+
+    setTimeout(() => {
+      // TODO: 주문 내역 페이지 이동
+      router.push('/my-orders')
+    }, 1000);
+  } catch (err) {
+    console.error(err);
+    if(axios.isAxiosError(err) && err.response?.data) {
+      // backend에서 보낸 구체적인 에러 메시지가 있다면 사용
+      orderMessage.value = `주문 실패: ${err.response.data || '알 수 없는 오류'}`;
+    } else {
+      orderMessage.value = '주문 처리 중 오류가 발생했습니다.';
+    }
   }
 }
 

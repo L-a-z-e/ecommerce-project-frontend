@@ -34,4 +34,20 @@ export interface CartResponse {
   totalPrice: number;
 }
 
-// TODO: 다른 API 타입 추가
+export interface OrderRequest {
+  address: string;
+}
+
+export interface OrderItemDetail {
+  productName: string;
+  quantity: number;
+  orderPrice: number;
+}
+export interface OrderResponse {
+  orderId: number;
+  orderAddress: string;
+  totalPrice: number;
+  status: string;
+  orderDate: string;
+  orderItems: OrderItemDetail[];
+}
