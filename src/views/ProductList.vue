@@ -1,6 +1,16 @@
 <template>
   <div>
     <h1>상품 목록</h1>
+    <div class="filters">
+      <select v-model="selectedBrand" @change="applyFilters">
+        <option value="">모든 브랜드</option>
+        <option value="Nike">Nike</option>
+        <option value="Adidas">Adidas</option>
+        <option value="Puma">Puma</option>
+      </select>
+      <input v-model.number="minPrice" type="number" placeholder="최소 가격" @change="applyFilters">
+      <input v-model.number="maxPrice" type="number" placeholder="최대 가격" @change="applyFilters">
+    </div>
     <div v-if="loading">로딩 중...</div>
     <div v-if="error">{{ error }}</div>
     <ul v-if="products.length > 0">
@@ -23,6 +33,11 @@ import apiClient from "@/api";
 const products = ref<Product[]>([]);
 const loading = ref<boolean>(true);
 const error = ref<string>('');
+// 필터링 조건을 위한 반응형 상태 추가
+const selectedBrand = ref<string>('');
+const minPrice = ref<number | null>(null);
+const maxPrice = ref<number | null>(null);
+
 
 onMounted(async () => {
   await fetchProducts();
@@ -34,7 +49,12 @@ const fetchProducts = async (): Promise<void> => {
     loading.value = true;
     error.value = '';
 
-    const response = await apiClient.get<Product[]>('/products');
+    const params: Record<string, any> = {};
+    if (selectedBrand.value) params.brand = selectedBrand.value;
+    if (minPrice.value) params.minPrice = minPrice.value;
+    if (maxPrice.value) params.maxPrice = maxPrice.value;
+
+    const response = await apiClient.get<Product[]>('/products', { params: params });
     products.value = response.data;
   } catch (err: any) {
     console.error("Failed to fetch products:", err);
@@ -43,6 +63,11 @@ const fetchProducts = async (): Promise<void> => {
     loading.value = false;
   }
 }
+
+// 필터 조건이 변경될 때마다 이 함수가 호출됨
+const applyFilters = async () => {
+  await fetchProducts();
+};
 
 </script>
 
