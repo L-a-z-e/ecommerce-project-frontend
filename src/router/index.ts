@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import ProductList from "@/views/ProductList.vue";
 import ProductDetail from "@/views/ProductDetail.vue";
 import Cart from "@/views/Cart.vue";
+import MyOrders from "@/views/MyOrders.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -37,8 +38,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/cart',
     name: 'Cart',
     component: Cart
+  },
+  {
+    path: '/my-orders',
+    name: 'MyOrders',
+    component: MyOrders
   }
-  // TODO: 다른 라우터 추가
 ];
 
 const router = createRouter({
