@@ -6,6 +6,7 @@ import ProductList from "@/views/ProductList.vue";
 import ProductDetail from "@/views/ProductDetail.vue";
 import Cart from "@/views/Cart.vue";
 import MyOrders from "@/views/MyOrders.vue";
+import SearchView from "@/views/SearchView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -43,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/my-orders',
     name: 'MyOrders',
     component: MyOrders
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: SearchView
   }
 ];
 
